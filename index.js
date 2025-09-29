@@ -3,7 +3,7 @@ const config = require('./config');
 const empRouter = express.Router();
 const app = express();
 require('dotenv').config();
-const { insertEmployee, getOneEmployee,getAllEmployees }= require('./empController');
+const { insertEmployee, getOneEmployee,getAllEmployees,updateEmployee }= require('./empController');
 // const port = 3000;
 app.use(express.json());
 const PORT = process.env.PORT
