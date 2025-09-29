@@ -4,7 +4,16 @@ const Sequelize = require('sequelize');
 
 const db = {};
 // create db if it doesn't already exist
-const { dbhost, dbport, dbuser, dbpassword,database,dbdialect } = config.database;
+const  dbhost= process.env.HOST;
+const dbport =process.env.DB_PORT;
+const dbuser=process.env.DB_USER;
+const dbpassword=process.env.DB_PASSWORD;
+const  database=process.env.DATABASE;
+const dbdialect=process.env.dbdialect ;
+console.log("dbhost",dbhost)
+console.log("dbport",dbport)
+console.log("database",database)
+console.log("dbpassword",dbpassword)
 const pool =  mysql.createPool({ 
    host:dbhost, 
    port:dbport,
@@ -24,6 +33,6 @@ sequelize.authenticate()
 .catch(err => {
   console.error('Unable to connect to the database:', err);
 });
- 
+module.exports = db;
 
 

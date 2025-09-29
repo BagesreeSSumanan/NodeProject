@@ -67,18 +67,21 @@ app.listen(PORT, () => {
 // })
 
 // Create an employee
+app.use('/employee', empRouter);
   empRouter.post('/',  async (req, res, next)=>{
     console.log("employee post");
      try{
+      console.log("try")
          const name = req.body.employee.name;
+         console.log("name",name);
          const designation = req.body.employee.designation;
          const email = req.body.employee.email;
          const age = req.body.employee.age;
                if (!name || !designation || !age) {
                  return res.sendStatus(400);
               }
-         const employee =  await insertEmployee(name, email,designation,age).then(() => res.json({ message: 'Employee created.' }));
-
+         const employee =  await insertEmployee(name, designation,email,age).then(() => res.json({ message: 'Employee created.' }));
+ 
      } catch(e){
          console.log(e);
          res.sendStatus(400);
