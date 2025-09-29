@@ -3,7 +3,7 @@ const config = require('./config');
 const empRouter = express.Router();
 const app = express();
 require('dotenv').config();
-const   insertEmployee= require('./empController');
+const { insertEmployee, getOneEmployee,getAllEmployees }= require('./empController');
 // const port = 3000;
 app.use(express.json());
 const PORT = process.env.PORT
@@ -88,6 +88,42 @@ app.use('/employee', empRouter);
      }
   });
 
-// app.get('/', (req, res) => {
-//   res.send('Welcome to Employee API');
-// });
+app.use('/GetEmployee', empRouter);
+  empRouter.get('/',  async (req, res, next)=>{
+    console.log("employee get");
+     try{
+      console.log("try")
+         const id = req.body.id;
+         console.log("id",id);
+          if (!id) {
+              return res.sendStatus(400);
+          }
+          const employee = await getOneEmployee(id); // await resolves the promise
+        if (!employee) {
+            return res.status(404).json({ message: 'Employee not found.' });
+        }
+
+        res.json({
+            message: 'Employee retrieved successfully.',
+            employeeDetails: employee
+        });
+ 
+     } catch(e){
+         console.log(e);
+         res.sendStatus(400);
+     }
+  });
+
+
+app.use('/GetAllEmployee', empRouter);
+  // Get all employees
+ empRouter.get('/', async (req, res, next)=>{
+     try {
+         const employees = await getAllEmployees();
+         res.status(200).json({employees: employees});
+     } catch(e) {
+         console.log(e);
+         res.sendStatus(500);
+     }
+  });
+
