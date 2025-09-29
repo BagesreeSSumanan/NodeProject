@@ -24,7 +24,7 @@ const sequelize = new Sequelize(database, dbuser, dbpassword,{
   host: dbhost,
   dialect: "mysql"
 });
-db.employee = require('./model').default(sequelize, Sequelize);
+db.Employee = require('./model')(sequelize, Sequelize);
 sequelize.sync() 
 sequelize.authenticate()
 .then(() => {
