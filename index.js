@@ -147,3 +147,21 @@ empRouter.get('/', async (req, res, next)=>{
          res.sendStatus(500);
      }
   });
+
+empRouter.put('/:employeeId',  async (req, res, next)=>{
+     try{
+         const name = req.body.employee.name;
+         const designation = req.body.employee.designation;
+         const email = req.body.employee.email;
+         const age = req.body.employee.age;
+         const employeeId= req.params.employeeId;
+               if (!name || !designation || !age) {
+                 return res.sendStatus(400);
+              }
+         const employee =  await updateEmployee(name, designation, email, age, employeeId).then(()=>{return getOneEmployee(employeeId);});
+         res.json({employee: employee});
+     } catch(e){
+         console.log(e);
+         res.sendStatus(400);
+     }
+  });

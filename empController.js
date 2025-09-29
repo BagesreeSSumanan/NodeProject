@@ -15,8 +15,12 @@ const employees = await Employee.findAll();
   return employees;
 
 }
+async function updateEmployee (name, designation, email, age, id){
+    await Employee.update({name, designation, email, age}, { where: {id: id}});
+ }
 module.exports = {
   insertEmployee,
   getOneEmployee,
-  getAllEmployees
+  getAllEmployees,
+  updateEmployee
 };
