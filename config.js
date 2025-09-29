@@ -1,3 +1,4 @@
+
 module.exports={
     port:process.env.PORT,
     database:{
@@ -6,6 +7,8 @@ module.exports={
         dbuser:process.env.DB_USER,
         dbpassword:process.env.DB_PASSWORD,
         database :process.env.DATABASE,
-        dbdialect:process.env.dialect
+        dbdialect:process.env.dbdialect
     }
 }
+
+

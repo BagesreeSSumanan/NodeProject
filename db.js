@@ -12,10 +12,10 @@ const pool =  mysql.createPool({
 pool.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
 const sequelize = new Sequelize(database, dbuser, dbpassword,{
-  host: "localhost",
+  host: dbhost,
   dialect: "mysql"
 });
-db.employee = require('./model')(sequelize, Sequelize);
+db.employee = require('./model').default(sequelize, Sequelize);
 sequelize.sync() 
 sequelize.authenticate()
 .then(() => {
