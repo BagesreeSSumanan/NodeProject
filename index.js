@@ -88,36 +88,57 @@ app.use('/employee', empRouter);
      }
   });
 
-app.use('/GetEmployee', empRouter);
-  empRouter.get('/',  async (req, res, next)=>{
-    console.log("employee get");
-     try{
-      console.log("try")
-         const id = req.body.id;
-         console.log("id",id);
-          if (!id) {
-              return res.sendStatus(400);
-          }
-          const employee = await getOneEmployee(id); // await resolves the promise
-        if (!employee) {
-            return res.status(404).json({ message: 'Employee not found.' });
-        }
+// app.use('/GetEmployee', empRouter);
+//   empRouter.get('/',  async (req, res, next)=>{
+//     console.log("employee get");
+//      try{
+//       console.log("try")
+//          const id = req.body.id;
+//          console.log("id",id);
+//           if (!id) {
+//               return res.sendStatus(400);
+//           }
+//           const employee = await getOneEmployee(id); // await resolves the promise
+//         if (!employee) {
+//             return res.status(404).json({ message: 'Employee not found.' });
+//         }
 
-        res.json({
-            message: 'Employee retrieved successfully.',
-            employeeDetails: employee
-        });
+//         res.json({
+//             message: 'Employee retrieved successfully.',
+//             employeeDetails: employee
+//         });
  
-     } catch(e){
+//      } catch(e){
+//          console.log(e);
+//          res.sendStatus(400);
+//      }
+//   });
+
+empRouter.get('/:employeeId',  (req, res, next)=>{
+     res.status(200).json({employee: req.employee});
+  });
+  empRouter.param('employeeId', async (req, res, next, employeeId)=> {
+     try{
+         const employee = await getOneEmployee(employeeId);
+         req.employee = employee;
+         next(); // go to apiRouter.get('/:employeeId')
+     } catch(e) {
          console.log(e);
-         res.sendStatus(400);
+         res.sendStatus(404);
      }
   });
-
-
-app.use('/GetAllEmployee', empRouter);
-  // Get all employees
- empRouter.get('/', async (req, res, next)=>{
+// app.use('/GetAllEmployee', empRouter);
+//   // Get all employees
+//  empRouter.get('/', async (req, res, next)=>{
+//      try {
+//          const employees = await getAllEmployees();
+//          res.status(200).json({employees: employees});
+//      } catch(e) {
+//          console.log(e);
+//          res.sendStatus(500);
+//      }
+//   });
+empRouter.get('/', async (req, res, next)=>{
      try {
          const employees = await getAllEmployees();
          res.status(200).json({employees: employees});
@@ -126,4 +147,3 @@ app.use('/GetAllEmployee', empRouter);
          res.sendStatus(500);
      }
   });
-
