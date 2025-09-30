@@ -3,7 +3,7 @@ const config = require('./config');
 const empRouter = express.Router();
 const app = express();
 require('dotenv').config();
-const { insertEmployee, getOneEmployee,getAllEmployees,updateEmployee }= require('./empController');
+const { insertEmployee, getOneEmployee,getAllEmployees,updateEmployee ,deleteEmployee}= require('./empController');
 // const port = 3000;
 app.use(express.json());
 const PORT = process.env.PORT
@@ -165,3 +165,13 @@ empRouter.put('/:employeeId',  async (req, res, next)=>{
          res.sendStatus(400);
      }
   });
+
+empRouter.delete('/:employeeId', async (req, res, next)=>{
+     try{
+         const employeeId = req.params.employeeId;
+         const response = await deleteEmployee(employeeId);
+         return res.sendStatus(204);
+     } catch(e){
+         console.log(e);
+     }
+  })
